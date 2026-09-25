@@ -20,10 +20,10 @@ jobs:
         with:
           enable-cache: true
 
-      # Deliberately not --all-extras: the `ingest` extra pulls torch, which CI
+      # Deliberately not --all-extras: the `embed` extra pulls torch, which CI
       # does not need to lint, typecheck or run the unit tests.
       - name: Install
-        run: uv sync --group dev
+        run: uv sync --group dev --extra ingest
 
       - name: Lint
         run: uv run ruff check .

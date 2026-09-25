@@ -19,9 +19,12 @@ dependencies = [
 # base install so `uvx model-chef` stays small.
 ingest = [
     "httpx>=0.28",
-    "sentence-transformers>=6.0",
     "selectolax>=0.4",
     "tomli-w>=1.0",
+]
+# Separate from `ingest` because it pulls torch; CI tests parsing without it.
+embed = [
+    "sentence-transformers>=6.0",
 ]
 server = [
     "mcp>=2.2",

@@ -100,6 +100,7 @@ permanent.
 |---|---|---|---|
 | arXiv OAI-PMH | none | polite; 429s reported in 2026 | Bulk metadata firehose, daily |
 | arXiv API | none | 3 req/s | Targeted search |
+| arXiv HTML (`/html`) | none | robots.txt `Crawl-delay: 15` | Full text for admitted papers |
 | OpenReview v2 (`openreview-py`) | none | generous | Venue papers + reviewer scores + decisions |
 | OpenAlex | none | 100k/day, 10/s | Citations, DOI resolution, institutions |
 | Semantic Scholar | free key | **1 req/s** — batch endpoints only | Influential citations, reference graph |
@@ -124,8 +125,10 @@ config-file PR.
 ## 4. Parsing, and why tables work
 
 **arXiv HTML beats PDF parsing, and it isn't close.** arXiv HTML is LaTeXML-derived,
-so tables arrive as real `<table>` markup with correct cell structure, sections are
-real headings, and maths is MathML. PDF table extraction — borderless tables, merged
+so tables arrive as `ltx_tabular` grids with correct cell structure, sections are
+real headings, and maths is MathML carrying its TeX source in `alttext` (kept, so
+tokens like `\beta=0.1` stay searchable). Tables wrapped in `\resizebox` arrive as
+`<span class="ltx_tabular">` rather than `<table>`; the parser handles both. PDF table extraction — borderless tables, merged
 cells, multi-column layouts — is the genuinely hard case. Avoid it where possible.
 
 Fetch cascade, recorded per document in `text_depth`:
