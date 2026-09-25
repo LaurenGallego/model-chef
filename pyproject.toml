@@ -1,0 +1,83 @@
+[project]
+name = "model-chef"
+version = "0.1.0"
+description = "A curated, provenance-tagged retrieval index over LLM post-training knowledge, served over MCP."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "Lauren Gallego" }]
+keywords = ["mcp", "rag", "rlhf", "post-training", "retrieval"]
+
+dependencies = [
+    "pydantic>=2.13",
+    "pydantic-settings>=2.7",
+    "structlog>=26.1",
+]
+
+[project.optional-dependencies]
+# Ingestion runs in CI / locally, never in the user's harness. Kept out of the
+# base install so `uvx model-chef` stays small.
+ingest = [
+    "httpx>=0.28",
+    "sentence-transformers>=6.0",
+    "selectolax>=0.4",
+    "tomli-w>=1.0",
+]
+server = [
+    "mcp>=2.2",
+]
+
+[project.scripts]
+model-chef = "model_chef.server.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/model_chef"]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.14",
+    "pytest>=8.3",
+    "pytest-cov>=6.0",
+    "ruff>=0.16",
+]
+
+[tool.ruff]
+line-length = 96
+target-version = "py312"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",   # pycodestyle
+    "F",        # pyflakes
+    "I",        # isort
+    "N",        # pep8-naming
+    "UP",       # pyupgrade
+    "B",        # bugbear
+    "A",        # builtins shadowing
+    "C4",       # comprehensions
+    "PTH",      # pathlib over os.path
+    "RUF",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+disallow_any_explicit = false
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q --strict-markers"
