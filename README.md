@@ -4,8 +4,8 @@ A curated, provenance-tagged retrieval index over **LLM post-training knowledge*
 RLHF, GRPO, DPO, PPO, reward modelling — exposed as an **MCP server** so any harness
 (Claude Code, Claude Desktop, Cursor) can query it as a tool.
 
-> **Status: phase 1 of 7.** Packaging, contracts and CI are in place. Ingestion and the
-> server are not built yet. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+> **Status: phase 2 of 7, in progress.** Contracts, CI, ranking, arXiv HTML parsing and
+> chunking are in place. Discovery, triage, storage adapters and the server are not. See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
 
 ## Why the scope is narrow — on purpose
 
