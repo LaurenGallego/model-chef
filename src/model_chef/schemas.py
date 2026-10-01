@@ -221,6 +221,17 @@ class Chunk(Frozen):
         }
 
 
+class EmbeddableChunk(Frozen):
+    """A chunk paired with the text its vector is computed from. Only ``chunk`` is stored.
+
+    The two differ on purpose: tables embed caption and headers rather than cell
+    values, and prose embeds with its title and heading path as context.
+    """
+
+    chunk: Chunk
+    embedding_text: str
+
+
 class Citation(Frozen):
     """Everything needed to attribute a result."""
 

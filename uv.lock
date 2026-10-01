@@ -897,10 +897,12 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
+embed = [
+    { name = "sentence-transformers" },
+]
 ingest = [
     { name = "httpx" },
     { name = "selectolax" },
-    { name = "sentence-transformers" },
     { name = "tomli-w" },
 ]
 server = [
@@ -922,11 +924,11 @@ requires-dist = [
     { name = "pydantic", specifier = ">=2.13" },
     { name = "pydantic-settings", specifier = ">=2.7" },
     { name = "selectolax", marker = "extra == 'ingest'", specifier = ">=0.4" },
-    { name = "sentence-transformers", marker = "extra == 'ingest'", specifier = ">=6.0" },
+    { name = "sentence-transformers", marker = "extra == 'embed'", specifier = ">=6.0" },
     { name = "structlog", specifier = ">=26.1" },
     { name = "tomli-w", marker = "extra == 'ingest'", specifier = ">=1.0" },
 ]
-provides-extras = ["ingest", "server"]
+provides-extras = ["ingest", "embed", "server"]
 
 [package.metadata.requires-dev]
 dev = [

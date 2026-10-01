@@ -110,7 +110,10 @@ This is a CV artifact. Prioritise demonstrable engineering discipline over featu
 Phase 1 complete: packaging, CI, `schemas.py`, `stores.py`, `config.py`, 26 tests,
 `ruff` + `mypy --strict` green.
 
-Next: phase 2 — arXiv HTML ingestion, gates 0–1, Vectorize/D1 adapters, hybrid search.
+Phase 2 in progress. Done: hybrid retrieval + ranking (`server/retrieval.py`), arXiv
+HTML parser (`ingestion/parse/arxiv_html.py`), chunker (`ingestion/chunk/chunker.py`).
+Remaining: arXiv discovery + gate 0, gate 1 (centroids + embedder), pipeline runner,
+D1/Vectorize adapters + reconcile, local-vs-hosted embedding parity test.
 
 ## Open decisions (flag before assuming an answer)
 

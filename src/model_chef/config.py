@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from pydantic import Field
+from pydantic import BaseModel, ConfigDict, Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-from model_chef.schemas import OutputPolicy
+from model_chef.schemas import OutputPolicy, SectionType, VenueTier
 
 
 class Settings(BaseSettings):
@@ -42,3 +42,25 @@ class Settings(BaseSettings):
     )
 
     request_timeout_s: float = 20.0
+
+
+class RankingWeights(BaseModel):
+    """Multipliers applied on top of fused relevance. See ARCHITECTURE.md §7."""
+
+    model_config = ConfigDict(frozen=True)
+
+    tier: dict[VenueTier, float] = {
+        "peer_reviewed": 1.00,
+        "official_docs": 1.00,
+        "preprint": 0.90,
+        "blog": 0.85,
+    }
+    section: dict[SectionType, float] = Field(
+        default={"related_work": 0.75}, description="Sections not listed weigh 1.0."
+    )
+    dropped_sections: frozenset[SectionType] = frozenset({"references"})
+    recency_tau_days: float = Field(default=540, description="exp(-age_days / tau).")
+    recency_floor: float = Field(
+        default=0.70, description="Stops strong older work being buried by recent noise."
+    )
+    rrf_k: int = 60
